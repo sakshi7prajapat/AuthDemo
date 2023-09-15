@@ -14,6 +14,7 @@ class LoginSceen extends StatefulWidget {
 }
 
 class _LoginSceenState extends State<LoginSceen> {
+  bool isLoading = false;
   LoginBloc _bloc = LoginBloc();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -39,9 +40,11 @@ class _LoginSceenState extends State<LoginSceen> {
         bloc: _bloc,
         listener: (context, state) {
           if (state is LoginLoading) {
+            isLoading = true;
             print("loading state");
             Center(child: CircularProgressIndicator());
           } else if (state is LoginSuccess) {
+            isLoading = false;
             print("login");
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => BlocProvider(
@@ -49,6 +52,7 @@ class _LoginSceenState extends State<LoginSceen> {
                       child: HomeScreen(),
                     )));
           } else if (state is LoginError) {
+            isLoading = true;
             print(state.error);
           }
         },
@@ -123,25 +127,32 @@ class _LoginSceenState extends State<LoginSceen> {
             _Login();
           }
         },
-        child: Text(
-          "Login",
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ));
+        child: isLoading
+            ? Center(
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ),
+              )
+            : Text(
+                "Login",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ));
   }
 
   Widget _row() {
     return Align(
-      alignment: Alignment.bottomRight,
-      child: TextButton(onPressed: () {
-          Navigator.push(context,
-            MaterialPageRoute(
-              builder: (context) => ForgotPassword()
-            ) ,
-          );
-      }, child: Text("Forgot Password?")));
+        alignment: Alignment.bottomRight,
+        child: TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ForgotPassword()),
+              );
+            },
+            child: Text("Forgot Password?")));
   }
 
   Widget _registerPage() {
