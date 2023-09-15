@@ -1,4 +1,5 @@
 import 'package:auth_demo/bloc/login_bloc.dart';
+import 'package:auth_demo/screen/forgot_password.dart';
 import 'package:auth_demo/screen/login_scren.dart';
 import 'package:auth_demo/screen/register_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: LoginSceen(),
+        home: ForgotPassword(),
       ),
     );
   }
